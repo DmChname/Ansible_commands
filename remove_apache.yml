@@ -1,0 +1,15 @@
+---
+
+  - name: install_apache
+    hosts: all
+    become: true
+    tasks:git status
+
+    - name: remove apachw2 package
+      apt:
+        name: apache2
+        state: absent
+    - name: delete php support for apache
+      apt:
+        name: libapache2-mod-php
+        state: absent

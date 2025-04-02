@@ -26,3 +26,17 @@ with the privileges and ask password for sudo
 >> sudo ansible all -m apt -a "name=snapd state=latest" --become --ask-become-pass
 >> sudo ansible all -m apt -a "upgrade=dist" --become --ask-become-pass
 
+Step 3:
+>> nano install_apache.yml
+>> nano remove_apache.yml
+or
+>> cp install_apache.yml remove_apache.yml
+>> ansible-playbook --ask-become-pass install_apache.yml
+>> sudo ansible-playbook install_apache.yml
+>> cp install_apache.yml remove_apache.yml
+>> sudo ansible-playbook remove_apache.yml
+>> git status
+>> git add .
+>> git status
+>> git commit -m "Added install/remove_apache files - initial commit and update AnsCommands"
+>> git push origin main
