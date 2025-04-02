@@ -1,0 +1,40 @@
+1. Generate ansible *.pub keys on an ansible remote server 
+>> ssh-keygen -t rsa -C "Ansible agent key"
+2. copy *.pub keys from ~/.ssh dir on a remote server in /home/gta/.ssh/authorized_keys file
+>> ssh-copy-id username@xxx.xxx.xxx.xxx
+>> ssh username@xxx.xxx.xxx.xxx
+>> exit
+or
+2.1. Copying the Public Key Using SSH from the ansibte server to the remote client xxx.xxx.xxx.xxx
+>> cat ~/.ssh/id_rsa.pub | ssh username@xxx.xxx.xxx.xxx "mkdir -p ~/.ssh && touch ~/.ssh/authorized_keys && chmod -R go= ~/.ssh && cat >> ~/.ssh/authorized_keys"
+>> ssh username@remote_IP_host
+or
+2.2. Copying the Public Key Manually. Append the content of your id_rsa.pub file to the ~/.ssh/authorized_keys file on your remote machine. ex: xxx.xxx.xxx.xxx
+>> cat ~/.ssh/id_rsa.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCqql6MzstZ
+:
+GvaQ== demo@test
+on a remote server xxx.xxx.xxx.xxx
+>> mkdir -p ~/.ssh
+copy/add the contents of your id_rsa.pub file to the end of the authorized_keys file on your remote machine. ex: xxx.xxx.xxx.xxx 
+>> echo public_key_string >> ~/.ssh/authorized_keys
+	Note: public_key_string with the output from the cat ~/.ssh/id_rsa.pub on your local machine
+	ensure that the ~/.ssh directory and authorized_keys file have the appropriate permissions set
+>> chmod -R go= ~/.ssh
+or
+>> chown -R sammy:sammy ~/.ssh
+Disabling Password Authentication on Your Server
+log into your account using SSH without a password
+>> sudo nano /etc/ssh/sshd_config
+	PasswordAuthentication no
+>> sudo systemctl restart ssh
+now log in to that account without a password
+>> ssh username@xxx.xxx.xxx.xxx
+Running a Single Command on a Remote Server
+>> ssh username@xxx.xxx.xxx.xxx "df -h"
+Logging in to a Server with a Different Port
+>> ssh -p port_num username@xxx.xxx.xxx.xxx
+Install sshpass
+>> sudo apt install sshpass
+
+
