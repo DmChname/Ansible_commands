@@ -1,8 +1,20 @@
 Stap 1:
+>> sudo ansible all --key-file ~/.ssh/ansible -i inventory -m ping
+>> sudo ansible all --key-file ~/.ssh/ansible -i inventory -m ping -u gta
 >> ansible all -m ping 
 >> ansible all --list-hosts
+>> ansible linux_gt2 --list
+>> ansible all --list -i hosts
 >> ansible all -m gather_facts
 >> ansible all -m gather_facts --limit 10.102.138.101
+>> ansible linux_gt2 -a "docker ps"
+>> ansible linux_exp -a "cat /etc/os-release" 
+>> ansible linux_exp -a "python --version"
+>> ansible linux_exp -a "which python python2 python3"
+>> ansible linux_exp -a "pip -V"
+>> ansible linux_exp -a "htop -v"
+>> ansible linux_exp -a "df -h"
+
 
 Stap 2:
 >> ansible all -m apt -a update_cache=true 
