@@ -3,3 +3,14 @@ Stap 1:
 >> ansible all --list-hosts
 >> ansible all -m gather_facts
 >> ansible all -m gather_facts --limit 10.102.138.101
+
+Stap 2:
+>> ansible all -m apt -a update_cache=true 
+with the privileges and ask password for sudo
+>> ansible all -m apt -a update_cache=true --become --ask-become-pass
+>> sudo ansible all -m apt -a name=vim-nox --become --ask-become-pass
+>> sudo ansible all -m apt -a name=tmux --become --ask-become-pass
+>> sudo ansible all -m apt -a name=snapd --become --ask-become-pass
+>> sudo ansible all -m apt -a "name=snapd state=latest" --become --ask-become-pass
+>> sudo ansible all -m apt -a "upgrade=dist" --become --ask-become-pass
+
