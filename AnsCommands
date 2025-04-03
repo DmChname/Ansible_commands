@@ -15,7 +15,6 @@ Stap 1:
 >> ansible linux_exp -a "htop -v"
 >> ansible linux_exp -a "df -h"
 
-
 Stap 2:
 >> ansible all -m apt -a update_cache=true 
 with the privileges and ask password for sudo
@@ -93,3 +92,71 @@ Step 4: Video 8
 >> git commit -m "Added inventory_v8_2/install_apache_v8_2.yml files - initial commit and update AnsCommands"
 >> git push origin main
 
+Step 5: Video 9
+5.1. Getting started with Ansible 09 - Targeting Specific Nodes
+>> cp inventory inventory_v9_2
+5.2. Create inventory_v9_2
+>> nano inventory_v9_2
+[web_servers]
+10.102.138.210
+10.102.138.211
+
+[db_servers]
+10.102.138.190
+10.102.138.192
+
+[file_servers]
+10.102.138.200
+10.102.138.201
+>> ansible-inventory --list -y -i inventory_v9_2
+>> cp install_apache_v8.yml site.yml
+>> vim site.yml
+---
+- hosts: all
+  become: true
+  tasks:
+
+  - name: install updates(CentOS)
+    dnf:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "CentOS"
+
+  - name: install updates(Ubuntu)
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution in ["Debian","Ubuntu"]
+
+- hosts: web_servers
+  become: true
+  tasks:
+
+  - name: install apache2 package(Ubuntu)
+    apt:
+      name:
+        - apache2
+        - libapache2-mod-php
+      state: latest
+    when: ansible_distribution in ["Debian","Ubuntu"]
+
+- hosts: db_servers
+  become: true
+  tasks:
+
+  - name: install mariadb package(Ubuntu)
+    apt:
+      name: mariadb-server
+      state: latest
+    when: ansible_distribution in ["Debian","Ubuntu"]
+
+5.3. Rub site.yml playbook
+>> ansible-playbook --ask-become-pass site.yml
+>> sudo ansible-playbook site.yml
+>> sudo ansible-playbook site.yml --list-tags
+>> sudo ansible-playbook site.yml --tags always
+>> git status
+>> git add .
+>> git status
+>> git commit -m "Add site.yml/inventory_v9_2 files - initial commit and update AnsCommands"
+>> git push origin main
