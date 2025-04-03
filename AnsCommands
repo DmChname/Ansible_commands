@@ -90,10 +90,6 @@ Step 4: Video 8
 >> git status>> git status
 >> git add .
 >> git status
->> git commit -m "Added install/remove_apache files - initial commit and update AnsCommands"
->> git push origin main
->> git add .
->> git status
->> git commit -m "Added install/remove_apache files - initial commit and update AnsCommands"
+>> git commit -m "Added inventory_v8_2/install_apache_v8_2.yml files - initial commit and update AnsCommands"
 >> git push origin main
 
