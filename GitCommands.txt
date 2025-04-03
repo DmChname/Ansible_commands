@@ -1,0 +1,17 @@
+Git Commantds to commit README.md file
+>> git clone https://github.com/DmChname/Ansible_commands.git
+>> cd Ansible_commands/
+>> nano README.md
+	Add some updateds into README.md
+>> cat README.md
+>> git satatus
+>> git diff README.md
+>> git add README.md
+or
+>> git add .
+>> git status
+>> git commit -m "Update README.md file - initial commit"
+>> git push origin master
+or
+>> git push origin main
+>> history
