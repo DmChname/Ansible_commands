@@ -160,3 +160,27 @@ Step 5: Video 9
 >> git status
 >> git commit -m "Add site.yml/inventory_v9_2 files - initial commit and update AnsCommands"
 >> git push origin main
+
+Step 6: Video 10
+>> cp site.yml site_v10.yml
+>> ansible-playbook --ask-become-pass site_v10.yml
+>> ansible-playbook site_v10.yml --list-tags
+playbook: site_v10.yml
+  play #1 (all): all    TAGS: []
+      TASK TAGS: [always]
+  play #2 (web_servers): web_servers    TAGS: []
+      TASK TAGS: [apache, apache2, centos, httpd, ubuntu]
+  play #3 (db_servers): db_servers      TAGS: []
+      TASK TAGS: [centos, db, mariadb, ubuntu]
+  play #4 (file _servers): file _servers        TAGS: []
+      TASK TAGS: [samba]
+>> sudo ansible-playbook site_v10.yml --tags always
+>> sudo ansible-playbook --tags centos --ask-become-pass site_v10.yml
+>> sudo ansible-playbook --tags db --ask-become-pass site_v10.yml
+>> sudo ansible-playbook --tags apache --ask-become-pass site_v10.yml
+>> sudo ansible-playbook --tags "db,apache" --ask-become-pass site_v10.yml
+>> git status
+>> git add .
+>> git status
+>> git commit -m "Add site_v10.yml file(s) - initial commit and update AnsCommands"
+>> git push origin main
