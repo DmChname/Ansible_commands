@@ -1,0 +1,23 @@
+---
+  - name: install_apach_php
+    hosts: all
+    become: true
+    tasks:
+
+    - name: install apache and php  
+      apt:
+        name:
+          - "{{ apache_package }}"
+          - "{{ php_package }}"
+        state: latest
+        update_cache: yes
+      when: ansible_distribution in ["Debian","Ubuntu"]
+
+    - name: install apache and php packages for CentOS
+      dnf:
+        name:
+          - httpd
+          - php
+        state: latest
+        update_cache: yes
+      when: ansible_distribution == "CentOS"

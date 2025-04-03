@@ -40,3 +40,60 @@ or
 >> git status
 >> git commit -m "Added install/remove_apache files - initial commit and update AnsCommands"
 >> git push origin main
+
+Step 4: Video 8
+4.1. Create a new install_apache_v8.yml
+>> nano install_apache_v8.yml
+---
+  - name: install_apach_php
+    hosts: all
+    become: true
+    tasks:
+
+    - name: install apache2 and php packages for Debian and Ubuntu
+      apt:
+        name:
+          - apache2
+          - libapache2-mod-php
+        state: latest
+        update_cache: yes
+      when: ansible_distribution in ["Debian","Ubuntu"]
+
+    - name: install apache php package for CentOS
+      dnf:
+        name:
+          - httpd
+          - php
+        state: latest
+      when: ansible_distribution == "CentOS"
+>> ansible-playbook --ask-become-pass install_apache_v8.yml
+4.2. Create a new install_apache_v8_2.yml with the variables: package, apache_package and php_package
+>> nano install_apache_v8_2.yml
+---
+  - name: install_apach_php
+    hosts: all
+    become: true
+    tasks:
+      - name: install apache and php packages
+        package:
+          name:
+            - "{{ apache_package }}"
+            - "{{ php_package }}"
+          state: latest
+          update_cache: yes
+        when: ansible_distribution in ["Debian","Ubuntu"]
+>> ansible-playbook --ask-become-pass install_apache_v8_2.yml
+4.3. Create and edit inventory_v8_2
+>> cp inventory inventory_v8_2
+10.102.138.101 apache_package=apache2 php_package=libapache2-mod-php
+10.102.138.102 apache_package=httpd php_package=php
+>> git status>> git status
+>> git add .
+>> git status
+>> git commit -m "Added install/remove_apache files - initial commit and update AnsCommands"
+>> git push origin main
+>> git add .
+>> git status
+>> git commit -m "Added install/remove_apache files - initial commit and update AnsCommands"
+>> git push origin main
+

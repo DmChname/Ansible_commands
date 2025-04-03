@@ -1,0 +1,2 @@
+10.102.138.101 apache_package=apache2 php_package=libapache2-mod-php
+10.102.138.102 apache_package=httpd php_package=php
