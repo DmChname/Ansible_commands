@@ -184,3 +184,20 @@ playbook: site_v10.yml
 >> git status
 >> git commit -m "Add site_v10.yml file(s) - initial commit and update AnsCommands"
 >> git push origin main
+
+Step 7: Video 11
+Getting started with Ansible 11 - Managing Files
+>> mkdir files
+>> git status
+>> nano files/default_site.html
+>> cp site.yml site_v11.yml
+>> nano site_v11.yml
+>> nano inventory_v8_2
+[workstations]
+10.102.138.204
+>> sudo ansible-playbook --ask-become-pass site_v11.yml
+>> git status
+>> git add .
+>> git status
+>> git commit -m "Add new playbook site_v11.yml file(s)  - initial commit and update AnsCommands"
+>> git push origin main
