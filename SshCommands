@@ -1,5 +1,10 @@
+
+
 1. Generate ansible *.pub keys on an ansible remote server 
+>> ls -la .ssh
 >> ssh-keygen -t rsa -C "Ansible agent key"
+OR
+>> ssh-keygen -t ed25519 -C "Default ssh key"
 2. copy *.pub keys from ~/.ssh dir on a remote server in /home/gta/.ssh/authorized_keys file
 >> ssh-copy-id username@xxx.xxx.xxx.xxx
 >> ssh username@xxx.xxx.xxx.xxx
