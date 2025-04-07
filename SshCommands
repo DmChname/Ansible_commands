@@ -1,5 +1,21 @@
 
 
+0. Install openssh
+>> ssh
+>> ssh user@ip -p 443
+>> ssh localhost
+ssh: connect to host localhost port 22: Connection refused
+>> clear
+>> sudo apt update
+Install openssh
+>> sudo apt install openssh-server
+>> sudo systemctl status ssh
+>> sudo systemctl enable --now ssh
+>> sudo gedit /etc/ssh/sshd_config
+#Port 22
+>> sudo systemctl restart ssh
+>> sudo systemctl status ssh
+
 1. Generate ansible *.pub keys on an ansible remote server 
 >> ls -la .ssh
 >> ssh-keygen -t rsa -C "Ansible agent key"
