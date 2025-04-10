@@ -267,3 +267,60 @@ https://www.youtube.com/watch?v=soeBHGAMkoQ
 >> git commit -m "Add new playbook site_v12.yml  - change e-mail address for admin, status httpd and update AnsCommands"
 >> git push origin main
 
+Step 9: Video 13
+Getting started with Ansible 13 - Adding Users & Bootstrapping
+https://www.youtube.com/watch?v=P5iKWANifrU
+>> cp site_v12.yml site_v13.yml
+>> nano site_v13.yml
+:
+- hostl: all
+  become: true
+  tasks:
+  - name: create a user samsuser user
+    tags: always
+    user:
+      mane: samsuser
+      groups: root
+
+- hosts: workstations
+  become: true
+  tasks:
+:
+>> cat /etc/passwd	
+	samsuser:x:1000:1000:,,,:/home/samsuser:/bin/bash
+>> cat ~/.ssh/id_ed25519.pub
+	ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF3KSWQ2MYleFGaVFe1o89k98SChloJPj414izycAyDg Default ssh key
+>> nano site_v13.yml
+:
+  - name: add ssh key for samsuser
+    tags: always
+    authorized_key:
+      user: samsuser
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF3KSWQ2MYleFGaVFe1o89k98SChloJPj414izycAyDg Default ssh key"	
+  - name: add sudoers file for samsuser
+    tags: always
+    copy:
+      src: sudoer_samsuser
+      dest: /etc/sodoer.d/samsuser
+      owner: root
+      grout: root
+:
+>> cd files
+>> nano sudoer_samsuser
+	samsuser ALL=(ALL) NOPASSWD: ALL
+>>la -last /etc/sudoers.d
+>> cd ..
+>> sudo ansible-playbook --ask-become-pass site_v13.yml
+>> nano ansible.cfg
++	remote_user = samsuser
+>> sudo ansible-playbook site_v13.yml
+>> cp site_v13.yml bootstrap.yml
+>> nano bootstrap.yml
+>> sudo ansible-playbook --ask-become-pass bootstrap.yml
+>> sudo ansible-playbook site_v13.yml
+>> git status
+>> git diff ansible.cfg
+>> git add .
+>> git status
+>> git commit -m "Add new playbook bootstrap.yml - update AnsCommands"
+>> git push origin main

@@ -1,0 +1,39 @@
+----
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates(CentOS)
+    dnf:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "CentOS"
+
+  - name: install updates(Ubuntu)
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+- hostl: all
+  become: true
+  tasks:
+  - name: create a user samsuser user
+    tags: always
+    user:
+      mane: samsuser
+      groups: root
+
+  - name: add ssh key for samsuser
+    tags: always
+    authorized_key:
+      user: samsuser
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF3KSWQ2MYleFGaVFe1o89k98SChloJPj414izycAyDg Default ssh key"
+  - name: add sudoers file for samsuser
+    tags: always
+    copy:
+      src: sudoer_samsuser
+      dest: /etc/sodoer.d/samsuser
+      owner: root
+      grout: root
+      mode: 0440
