@@ -204,7 +204,6 @@ Getting started with Ansible 11 - Managing Files
 
 Step 8: Video 12
 Getting started with Ansible 12 - Managing Services
-https://www.youtube.com/watch?v=soeBHGAMkoQ
 >> cp site_v11.yml site_v12.yml
 >> nano site_v12.yml
 :
@@ -269,7 +268,6 @@ https://www.youtube.com/watch?v=soeBHGAMkoQ
 
 Step 9: Video 13
 Getting started with Ansible 13 - Adding Users & Bootstrapping
-https://www.youtube.com/watch?v=P5iKWANifrU
 >> cp site_v12.yml site_v13.yml
 >> nano site_v13.yml
 :
