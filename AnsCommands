@@ -201,3 +201,69 @@ Getting started with Ansible 11 - Managing Files
 >> git status
 >> git commit -m "Add new playbook site_v11.yml file(s)  - initial commit and update AnsCommands"
 >> git push origin main
+
+Step 8: Video 12
+Getting started with Ansible 12 - Managing Services
+https://www.youtube.com/watch?v=soeBHGAMkoQ
+>> cp site_v11.yml site_v12.yml
+>> nano site_v12.yml
+:
+  - name: install apache and php packages for CentOS servers
+    dnf:
+      name:
+        - httpd
+        - php
+      state: latest
+    when: ansible_distribution == "CentOS"
+
+  - nsme: start httpd (CentOS)
+    tags: apache,centos,httpd
+    service:
+      name: httpd
+      state: started
+    when: ansible_distribution == "CentOS"
+:
+>> sudo systemctl status httpd
+>> sudo systemctl stop httpd
+>> sudo ansible-playbook --ask-become-pass site_v12.yml
+>> sudo systemctl status httpd	
+	> disabled 
+	active
+>> nano site_v12.yml
+	  - nsme: start httpd (CentOS)
+    	    tags: apache,centos,httpd
+            service:
+              name: httpd
+	      state: started
+      	      enavled: yes
+          when: ansible_distribution == "CentOS"
+>> sudo ansible-playbook --ask-become-pass site_v12.yml
+>> sudo systemctl status httpd	
+	> enabled 
+	active
+>> less /etc/httpd/conf/httpd.conf
+	ServerAdmin root@localhost
+>> nano site_v12.yml
+:
+  - name: change e-mail address for admin
+    tags: apache,centos,httpd
+    lineinfile:
+      path: /etc/httpd/conf/httpd.conf
+      regexp: '^ServerAdmin'
+      line: ServerAdmin somemail@email.com
+    when: ansible_distribution == "CentOS"
+    register: httpd
+  - name: restart httpd (CoenyOS)
+    tags: apache,centos,httpd
+    service:
+      name: httpd
+      state: restarted
+    when: httpd.changed
+:
+>> sudo ansible-playbook --ask-become-pass site_v12.yml
+>> git status
+>> git add .
+>> git status
+>> git commit -m "Add new playbook site_v12.yml  - change e-mail address for admin, status httpd and update AnsCommands"
+>> git push origin main
+
