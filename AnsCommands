@@ -322,3 +322,45 @@ Getting started with Ansible 13 - Adding Users & Bootstrapping
 >> git status
 >> git commit -m "Add new playbook bootstrap.yml - update AnsCommands"
 >> git push origin main
+
+Step 10: Video 14
+Getting started with Ansible 14 - Roles
+>> cp site_v13.yml site_v14_roles.yml
+>> mkdir roles
+>> cd roles
+>> mkdir base
+>> mkdir workstations
+>> mkdir web_servers
+>> mkdir db_servers
+>> mkdir file_servers
+>> cd ..
+>> cd roles
+>> mkdir base/tasks
+>> mkdir workstations/tasks
+>> mkdir web_servers/tasks
+>> mkdir db_servers/tasks
+add role main.yml for base
+>> cd base/tasks/
+>> nano main.yml
+add role main.yml for db_servers
+>> cd db_servers/tasks/
+>> nano main.yml
+add role main.yml for file_servers
+>> cd file_servers/tasks/
+>> nano main.yml
+add role main.yml for web_servers
+>> cd web_servers/tasks/
+>> nano main.yml
+add role main.yml for workstations
+>> cd workstations/tasks/
+>> nano main.yml
+Run site_v14_roles.yml playbook
+>> cd ../../../
+>> ansible-playbook site_v14_roles.yml
+>> git status
+>> git diff ansible.cfg
+>> git add .
+>> git status
+>> git commit -m "Add new playbook site_v14_roles.yml - roles added and updated AnsCommands"
+>> git push origin main
+

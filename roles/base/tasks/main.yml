@@ -1,0 +1,4 @@
+- name: add ssh key for samsuser
+  authorized_key:
+    user: samsuser
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF3KSWQ2MYleFGaVFe1o89k98SChloJPj414izycAyDg Default ssh key"
