@@ -229,12 +229,12 @@ Getting started with Ansible 12 - Managing Services
 	> disabled 
 	active
 >> nano site_v12.yml
-	  - nsme: start httpd (CentOS)
-    	    tags: apache,centos,httpd
+        - name: start httpd (CentOS)
+	    tags: apache,centos,httpd
             service:
               name: httpd
 	      state: started
-      	      enavled: yes
+	      enavled: yes
           when: ansible_distribution == "CentOS"
 >> sudo ansible-playbook --ask-become-pass site_v12.yml
 >> sudo systemctl status httpd	
@@ -364,3 +364,67 @@ Run site_v14_roles.yml playbook
 >> git commit -m "Add new playbook site_v14_roles.yml - roles added and updated AnsCommands"
 >> git push origin main
 
+Step 11: Video 15
+Getting started with Ansible 15 - Host Variables and Handlers
+>> mkdir host_vars
+>> cd host_vars
+>> cat ../inventory_v9_2
+>> cp 10.102.138.210.yml 10.102.138.190.yml
+>> cp 10.102.138.210.yml 10.102.138.200.yml
+>> cp 10.102.138.210.yml 10.102.138.211.yml
+>> nano 10.102.138.211.yml
+	apache_package_name: httpd
+	apache_service: httpd
+	php_package_name: php
+>> nano roles/web_servers/tasks/main.ymly
+- name: install httpd package (CentOS)
+   tags: apache,centos,httpd
+   dnf:
+     name:
+       - "{{ apache_package_name }}"
+       - "{{ php_package_name }}"
+     state: latest
+   when: ansible_distribution == "CentOS"
+
+ - name: start and enable httpd (CentOS)
+   tags: apache,centos,httpd
+   service:
+     name: "{{ apache_service }}"
+     state: started
+     enabled: yes
+   when: ansible_distribution == "CentOS"
+:
+ - name: restart httpd (CentOS)
+   tags: apache,centos,httpd
+   service:
+     name: "{{ apache_service }}"
+     state: restarted
+   when: httpd.changed
+:
+changed to 
+ - name: change e-mail address for admin
+   tags: apache,centos,httpd
+   lineinfile:
+     path: /etc/httpd/conf/httpd.conf
+     regexp: '^ServerAdmin'
+     line: ServerAdmin somebody@somewhere.net
+   when: ansible_distribution == "CentOS"
+//   register: httpd
+   notify: restart_apache
+>> ansible-playbook site_v14_roles.yml
+>> cd roles/web_servers/tasks/
+>> mkdir handlers
+>> cd handlers
+>> nano main.yml
+	- name: restart_apache
+	  tags: apache,centos,httpd
+          service:
+	  name: "{{ apache_service }}"
+	  state: restarted
+>> cd ../../../
+>> ansible-playbook site_v14_roles.yml
+>> git status
+>> git add .
+>> git status
+>> git commit -m "Add variables files 10.102.138*.yml - roles added and updated AnsCommands"
+>> git push origin main
