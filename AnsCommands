@@ -428,3 +428,53 @@ changed to
 >> git status
 >> git commit -m "Add variables files 10.102.138*.yml - roles added and updated AnsCommands"
 >> git push origin main
+
+Step 12: Video 16
+Getting started with Ansible 16 (Series Finale) - Templates
+>> nano /etc/ssh/sshd_config
+>> cd roles/base/tasks/
+>> cd ..
+>> mkdir templates
+>> cd templates/
+>> cp /etc/ssh/sshd_config sshd_config_ubuntu.j2
+on a workstations host
+[workstations]
+10.102.138.204
+>> scp 10.102.138.204:/etc/ssh/sshd_config sshd_config_ubuntu.j2
+	add 
+	AllowUsers {{ ssh_user }}
+>> scp 10.102.138.204:/etc/ssh/sshd_config sshd_config_contos.j2
+	add 
+	AllowUsers {{ ssh_user }}
+>> cd ../../../host_vars/
+>> nano 10.102.138.*.yml 
+ssh_users: "samsuser"
+ssh_template_file: sshd_config_ubuntu.j2
+and
+ssh_template_file: sshd_config_contos.j2
+>> cd roles/base/tasks/
+>> nano main.yml
+:
+ - name: openssh | generate sshd_config file from template
+   tags: ssh
+   template:
+     src: "{{ ssh_template_file }}"
+     dest: /etc/ssh/sshd_config
+     owner: root
+     group: root
+     mode: 0644
+   notify: restart_sshd
+>> cd ..
+>> mkdir handlers
+>> cd handlers
+>> nano main.yml
+ - name: restart_sshd
+   service:
+     name: sshd
+     state: restarted
+>> ansible-playbook site_v14_roles.yml
+>> git status
+>> git add .
+>> git status
+>> git commit -m "Added sshd, tempate, ssh handlers, and host variables for ssh - updated AnsCommands"
+>> git push origin main
